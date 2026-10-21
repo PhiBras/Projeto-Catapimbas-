@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 
 const url = process.env.DATABASE_URL || '';
 const local = /@(localhost|127\.0\.0\.1)/.test(url);   // o Supabase exige SSL; o PostgreSQL local não precisa
-const pool = new Pool({ connectionString: url, ssl: local ? false : { rejectUnauthorized: false }, max: 10 });
+const pool = new Pool({ connectionString: url, ssl: local ? false : { rejectUnauthorized: false }, max: process.env.VERCEL ? 3 : 10 });
 pool.on('error', e => console.error('Erro no pool de conexões:', e.message));
 
 // Retorna todas as linhas da consulta.
