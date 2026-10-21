@@ -31,6 +31,7 @@ publicas.post('/login', limitar(10, 900000), async (req, res) => {
   const v = await um(`SELECT v.instituicao_id FROM vinculos v JOIN instituicoes i ON i.id = v.instituicao_id
     WHERE v.usuario_id=$1 AND v.situacao='aprovado' AND i.status='ativa' ORDER BY v.instituicao_id LIMIT 1`, [u.id]);
   if (!v && !u.superadmin) return erro(res, 'Acesso indisponível: cadastro pendente, recusado ou bloqueado', 403);
+  consulta("DELETE FROM sessoes WHERE criada < now() - interval '8 hours'").catch(() => {});   // limpa sessões vencidas
   const token = crypto.randomBytes(32).toString('hex');
   await consulta('INSERT INTO sessoes (token, usuario_id, instituicao_id) VALUES ($1,$2,$3)', [token, u.id, v?.instituicao_id ?? null]);
   const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
