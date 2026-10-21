@@ -2,11 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
     "backend": {
-      "root": "Projeto-Catapimbas/avaliacao-startups/backend",
+      "root": "backend",
       "framework": "express"
     },
     "frontend": {
-      "root": "Projeto-Catapimbas/avaliacao-startups/frontend",
+      "root": "frontend",
       "framework": "vite"
     }
   },
