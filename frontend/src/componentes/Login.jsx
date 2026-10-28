@@ -13,25 +13,25 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
   };
 
   return (
-    <div className="login-card">
-      <div className="login-header">
-        <div className="logo-icon">C</div>
-        <h2>Catapimbas</h2>
-        <p>Use o e-mail e a senha cadastrados.</p>
+    <div className="card login-card" style={{ maxWidth: '420px', margin: '40px auto', padding: '2rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+        <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>C</div>
+        <h2 style={{ margin: '0.5rem 0 0.25rem' }}>Catapimbas</h2>
+        <p style={{ opacity: 0.8, fontSize: '0.9rem' }}>Use o e-mail e a senha cadastrados.</p>
       </div>
 
-      <div className="login-tabs">
-        <button type="button" className="tab active">Entrar</button>
-        <button type="button" className="tab" onClick={() => setAba && setAba('registrar')}>
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
+        <button type="button" className="tab active" style={{ flex: 1, padding: '0.5rem' }}>Entrar</button>
+        <button type="button" className="tab" style={{ flex: 1, padding: '0.5rem' }} onClick={() => setAba && setAba('registrar')}>
           Solicitar acesso
         </button>
       </div>
 
       <form onSubmit={handleSubmit}>
-        {erro && <div className="erro-mensagem">{erro}</div>}
+        {erro && <div className="erro" style={{ color: '#ef4444', marginBottom: '1rem', textAlign: 'center' }}>{erro}</div>}
 
-        <div className="campo">
-          <label htmlFor="email">E-mail</label>
+        <div style={{ marginBottom: '1rem' }}>
+          <label htmlFor="email" style={{ display: 'block', marginBottom: '0.4rem' }}>E-mail</label>
           <input
             id="email"
             type="email"
@@ -39,11 +39,12 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="seu@email.com"
             required
+            style={{ width: '100%', padding: '0.6rem 0.8rem', borderRadius: '6px', border: '1px solid #374151', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
           />
         </div>
 
-        <div className="campo">
-          <label htmlFor="senha">Senha</label>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <label htmlFor="senha" style={{ display: 'block', marginBottom: '0.4rem' }}>Senha</label>
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
               id="senha"
@@ -52,7 +53,7 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
               onChange={(e) => setSenha(e.target.value)}
               placeholder="Sua senha"
               required
-              style={{ width: '100%', paddingRight: '45px' }}
+              style={{ width: '100%', padding: '0.6rem 2.8rem 0.6rem 0.8rem', borderRadius: '6px', border: '1px solid #374151', background: 'rgba(0,0,0,0.2)', color: '#fff' }}
             />
             <button
               type="button"
@@ -60,16 +61,14 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
               title={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
               style={{
                 position: 'absolute',
-                right: '10px',
+                right: '8px',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: '1.1rem',
-                color: '#9ca3af',
-                padding: '4px 8px',
+                padding: '4px',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                alignItems: 'center'
               }}
             >
               {mostrarSenha ? '🙈' : '👁️'}
@@ -77,7 +76,7 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
           </div>
         </div>
 
-        <button type="submit" className="btn-primary" disabled={carregando}>
+        <button type="submit" className="btn-primary" disabled={carregando} style={{ width: '100%', padding: '0.75rem', borderRadius: '6px', fontWeight: 'bold' }}>
           {carregando ? 'A entrar...' : 'Entrar'}
         </button>
       </form>
