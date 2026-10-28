@@ -1,6 +1,8 @@
 // Função única para falar com o backend. Em caso de erro, lança uma exceção com a mensagem da API.
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 export async function api(url, metodo = 'GET', corpo) {
-  const resposta = await fetch('/api' + url, {
+  const resposta = await fetch(`${API_BASE}/api${url}`, {
     method: metodo,
     headers: { 'Content-Type': 'application/json' },
     body: corpo ? JSON.stringify(corpo) : undefined
