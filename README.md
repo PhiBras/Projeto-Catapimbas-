@@ -1,0 +1,59 @@
+# Avaliação de Startups — plataforma multi-institucional
+
+Node.js + Express (API) · PostgreSQL no Supabase (banco) · React (interface).
+
+```
+backend/    API: src/routes, src/services, src/middlewares, src/config, banco/schema.sql, scripts/, tests/
+frontend/   Interface React (Vite): src/componentes
+docs/       DER e matriz de permissões
+```
+
+## 1. Criar o banco no Supabase
+1. Em supabase.com, crie uma conta e um **New project** (escolha um nome, uma região próxima e uma **senha do banco** — guarde-a).
+2. Com o projeto pronto, clique em **Connect** (topo do painel) e copie a URL de **Session pooler**
+   (formato `postgres://postgres.SEUPROJETO:[YOUR-PASSWORD]@aws-0-REGIAO.pooler.supabase.com:5432/postgres`).
+   Troque `[YOUR-PASSWORD]` pela senha do banco. Use o Session pooler porque funciona em redes só com IPv4 e serve para servidores que ficam ligados.
+3. Em **Project Settings > Data API**, desative a **Data API** (o sistema usa o Express, não a API do Supabase).
+
+## 2. Rodar no computador (Node.js 20+)
+```
+cd backend
+cp .env.example .env        # cole a URL do Supabase em DATABASE_URL
+npm install
+npm run migrar              # cria as tabelas (já com RLS ativado)
+npm run seed                # dados de demonstração (senha das contas: Senha@123)
+npm run dev                 # API em http://localhost:3000
+```
+Em outro terminal:
+```
+cd frontend
+npm install
+npm run dev                 # abra http://localhost:5173
+```
+Contas de demonstração: `super@demo.com`, `admin.a@demo.com`, `coord.a@demo.com`, `orient.a@demo.com`, `aluno.a@demo.com`,
+`andre@demo.com` / `celso@demo.com` / `laura@demo.com` (avaliadores), `admin.b@demo.com`, `pendente.a@demo.com`.
+
+> **Cuidado:** `npm run seed` e `npm test` APAGAM todos os dados do banco apontado. Use-os só em banco de demonstração/teste.
+> Para uso real, crie o superadministrador com `npm run super` (dados no `.env`) e cadastre as instituições pela tela.
+
+## 3. Testes
+Use um banco separado: outro projeto Supabase ou um PostgreSQL local. Rode `npm run migrar` com `DATABASE_URL` apontando para ele
+(ou execute `banco/schema.sql` no SQL Editor), preencha `DATABASE_URL_TESTE` no `.env` e rode `npm test` em `backend/`.
+
+## 4. Colocar no ar
+O Supabase hospeda só o **banco**. O servidor Node precisa rodar em algum lugar (Render, Railway, VPS...):
+```
+cd frontend && npm install && npm run build      # gera frontend/dist
+cd ../backend && npm install --omit=dev
+NODE_ENV=production TRUST_PROXY=1 npm start       # o Express entrega a API e o site
+```
+Configure `DATABASE_URL` como variável de ambiente na hospedagem (nunca envie o `.env` para o Git). O Supabase faz backups automáticos conforme o plano.
+
+## Segurança
+Senhas com bcrypt · sessão em cookie HttpOnly/SameSite=Strict (Secure em produção), expira em 8 h · papéis conferidos no servidor a cada requisição ·
+toda consulta é limitada à instituição da sessão · limite de tentativas de login · verificação de origem · cabeçalhos de segurança ·
+consultas SQL parametrizadas · RLS ativado em todas as tabelas · Excel protegido contra fórmulas · auditoria de operações importantes.
+
+## Regras de cálculo
+Pontuação do avaliador = soma(nota × peso) ÷ soma(pesos). Pontuação do projeto = média dos avaliadores com avaliação completa, em 2 casas.
+Empate: mesma pontuação = mesma posição (1, 1, 3). Ranking, pódio e Excel usam a mesma função (`backend/src/services/ranking.js`).
