@@ -232,7 +232,7 @@ export default function Bancas({ admin, eu }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', gap: '16px', flexWrap: 'wrap' }}>
         <div>
           <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: '0 0 4px 0' }}>Bancas</h2>
-          <p style={{ color: '#94a3b8', margin: 0, fontSize: '14px' }}>
+          <p style={{ color: 'var(--suave)', margin: 0, fontSize: '14px' }}>
             Organize apresentações, atribua avaliadores e acompanhe os lançamentos.
           </p>
         </div>
@@ -264,13 +264,13 @@ export default function Bancas({ admin, eu }) {
 
             return (
               <div key={b.id} style={{ 
-                background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.1)', 
+                background: 'var(--superficie)', border: '1px solid var(--linha)',
                 borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column',
-                justify: 'space-between', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)', backdropFilter: 'blur(10px)'
+                justify: 'space-between', boxShadow: 'var(--sombra)'
               }}>
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', gap: '12px' }}>
-                    <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: '#ffffff', wordBreak: 'break-word' }}>
+                    <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: 'var(--texto)', wordBreak: 'break-word' }}>
                       {b.nome || 'Banca sem nome'}
                     </h3>
                     <span className={`badge ${b.publicada || b.status === 'encerrada' ? 'ok' : 'alerta'}`} style={{ whiteSpace: 'nowrap' }}>
@@ -278,14 +278,14 @@ export default function Bancas({ admin, eu }) {
                     </span>
                   </div>
 
-                  <div style={{ fontSize: '13px', color: '#94a3b8', marginBottom: '16px', display: 'flex', gap: '12px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--suave)', marginBottom: '16px', display: 'flex', gap: '12px' }}>
                     <span>📁 {totalProjetos} {totalProjetos === 1 ? 'projeto' : 'projetos'}</span>
                     <span>•</span>
                     <span>📋 {totalCriterios} {totalCriterios === 1 ? 'critério' : 'critérios'}</span>
                   </div>
 
                   <div>
-                    <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 'bold', marginBottom: '8px' }}>
+                    <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--suave)', fontWeight: 'bold', marginBottom: '8px' }}>
                       Projetos da Banca
                     </div>
                     
@@ -297,10 +297,10 @@ export default function Bancas({ admin, eu }) {
                           return (
                             <div key={p.id} style={{ 
                               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                              background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)',
+                              background: 'var(--papel)', border: '1px solid var(--linha)',
                               padding: '8px 12px', borderRadius: '8px', gap: '8px'
                             }}>
-                              <span style={{ fontWeight: '500', fontSize: '14px', color: '#e2e8f0', flex: 1 }}>{p.nome}</span>
+                              <span style={{ fontWeight: '500', fontSize: '14px', color: 'var(--texto)', flex: 1 }}>{p.nome}</span>
                               
                               <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                                 <button className="botao sec pequeno" onClick={() => setQrModal({ banca: b, projeto: p })} title="Gerar QR Code" style={{ margin: 0, padding: '4px 8px', fontSize: '12px' }}>
@@ -309,7 +309,7 @@ export default function Bancas({ admin, eu }) {
 
                                 {podeAvaliar && (
                                   jaAvaliado ? (
-                                    <span style={{ fontSize: '12px', color: '#1fd6a0', fontWeight: 'bold', padding: '0 4px' }}>✓ Avaliado</span>
+                                    <span style={{ fontSize: '12px', color: 'var(--ok)', fontWeight: 'bold', padding: '0 4px' }}>✓ Avaliado</span>
                                   ) : (
                                     <button className="botao sec pequeno" onClick={() => setAvaliando({ banca: b, projeto: p })} style={{ margin: 0, padding: '4px 12px', fontSize: '12px' }}>
                                       Avaliar
@@ -322,7 +322,7 @@ export default function Bancas({ admin, eu }) {
                         })}
                       </div>
                     ) : (
-                      <div style={{ fontStyle: 'italic', fontSize: '13px', color: '#64748b', padding: '4px 0' }}>
+                      <div style={{ fontStyle: 'italic', fontSize: '13px', color: 'var(--suave)', padding: '4px 0' }}>
                         Nenhum projeto cadastrado nesta banca.
                       </div>
                     )}
