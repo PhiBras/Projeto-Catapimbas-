@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 export default function Login({ onLogin, setAba, erro, carregando }) {
   const [email, setEmail] = useState('admin.a@demo.com');
   const [senha, setSenha] = useState('Senha@123');
-  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,35 +43,14 @@ export default function Login({ onLogin, setAba, erro, carregando }) {
 
         <div className="campo">
           <label htmlFor="senha">Senha</label>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <input
-              id="senha"
-              type={mostrarSenha ? 'text' : 'password'}
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Sua senha"
-              required
-              style={{ paddingRight: '40px' }}
-            />
-            <button
-              type="button"
-              onClick={() => setMostrarSenha(!mostrarSenha)}
-              title={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
-              style={{
-                position: 'absolute',
-                right: '12px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                padding: 0,
-                lineHeight: 1,
-                opacity: 0.7
-              }}
-            >
-              {mostrarSenha ? '🙈' : '👁️'}
-            </button>
-          </div>
+          <input
+            id="senha"
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            placeholder="Sua senha"
+            required
+          />
         </div>
 
         <button type="submit" className="btn-primary" disabled={carregando}>
