@@ -1,10 +1,20 @@
 const { consulta } = require('../config/db');
 
+function atribuirPosicoes(ranking) {
+  let posicao = 0;
+  ranking.forEach((r, i) => {
+    if (i === 0 || r.pontuacao !== ranking[i - 1].pontuacao) posicao += 1;
+    r.posicao = posicao;
+    r.empate = ranking.filter(x => x.pontuacao === r.pontuacao).length > 1;
+  });
+  return ranking;
+}
+
 // Cálculo da pontuação (documentar no relatório):
 //  - por avaliador: soma(nota × peso) / soma(pesos);
 //  - do projeto: média dos avaliadores que preencheram TODOS os critérios (avaliação completa);
 //  - arredondamento: 2 casas decimais.
-// Empate: projetos com a mesma pontuação ficam na mesma posição (1, 1, 3), sem desempate arbitrário.
+// Empate: projetos com a mesma pontuação ficam na mesma posição, sem deixar posições vazias (1, 2, 2, 3).
 async function calcularRanking(banca) {
   const criterios = await consulta('SELECT id, peso FROM criterios WHERE banca_id=$1', [banca.id]);
   const somaPesos = criterios.reduce((s, c) => s + c.peso, 0);
@@ -23,13 +33,7 @@ async function calcularRanking(banca) {
   });
 
   const ranking = resultado.filter(r => r.pontuacao !== null).sort((a, b) => b.pontuacao - a.pontuacao || a.nome.localeCompare(b.nome));
-  let posicao = 0;
-  ranking.forEach((r, i) => {
-    if (i === 0 || r.pontuacao !== ranking[i - 1].pontuacao) posicao = i + 1;
-    r.posicao = posicao;
-    r.empate = ranking.filter(x => x.pontuacao === r.pontuacao).length > 1;
-  });
-  return { ranking, semNota: resultado.filter(r => r.pontuacao === null) };
+  return { ranking: atribuirPosicoes(ranking), semNota: resultado.filter(r => r.pontuacao === null) };
 }
 
-module.exports = { calcularRanking };
+module.exports = { calcularRanking, atribuirPosicoes };

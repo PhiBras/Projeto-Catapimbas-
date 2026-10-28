@@ -69,4 +69,4 @@ consultas SQL parametrizadas · RLS ativado em todas as tabelas · Excel protegi
 
 ## Regras de cálculo
 Pontuação do avaliador = soma(nota × peso) ÷ soma(pesos). Pontuação do projeto = média dos avaliadores com avaliação completa, em 2 casas.
-Empate: mesma pontuação = mesma posição (1, 1, 3). Ranking, pódio e Excel usam a mesma função (`backend/src/services/ranking.js`).
+Empate: mesma pontuação = mesma posição, sem deixar posições vazias (1, 2, 2, 3). Ranking, pódio e Excel usam a mesma função (`backend/src/services/ranking.js`).
