@@ -1,4 +1,5 @@
 const path = require('node:path'), fs = require('node:fs'), express = require('express');
+const cors = require('cors');
 const { um } = require('./config/db');
 const { erro } = require('./utils');
 const { cabecalhos, verificarOrigem } = require('./middlewares/seguranca');
@@ -10,6 +11,7 @@ const app = express();
 app.set('trust proxy', true);
 app.disable('x-powered-by');
 
+app.use(cors());
 app.use(cabecalhos);
 app.use(verificarOrigem);
 app.use(express.json({ limit: '100kb' }));
