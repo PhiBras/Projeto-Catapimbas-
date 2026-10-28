@@ -4,6 +4,7 @@ const API_BASE = import.meta.env.VITE_API_URL || '';
 export async function api(url, metodo = 'GET', corpo) {
   const resposta = await fetch(`${API_BASE}/api${url}`, {
     method: metodo,
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: corpo ? JSON.stringify(corpo) : undefined
   });

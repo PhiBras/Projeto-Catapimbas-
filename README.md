@@ -41,7 +41,20 @@ Use um banco separado: outro projeto Supabase ou um PostgreSQL local. Rode `npm 
 (ou execute `banco/schema.sql` no SQL Editor), preencha `DATABASE_URL_TESTE` no `.env` e rode `npm test` em `backend/`.
 
 ## 4. Colocar no ar
-O Supabase hospeda só o **banco**. O servidor Node precisa rodar em algum lugar (Render, Railway, VPS...):
+O Supabase hospeda só o **banco**. O servidor Node precisa rodar em algum lugar (Render, Railway, VPS...).
+
+### Frontend na Vercel e API no Render
+Configure as variáveis de ambiente:
+
+- **Render (API):** `DATABASE_URL` com a URL do Supabase, `NODE_ENV=production` e `FRONTEND_URL` com a origem exata do site na Vercel (por exemplo, `https://seu-projeto.vercel.app`, sem `/` no final).
+- **Vercel (frontend):** `VITE_API_URL` com a URL pública da API no Render (por exemplo, `https://seu-backend.onrender.com`, sem `/` no final). Gere um novo deploy da Vercel após alterar essa variável.
+
+O frontend e a API usam cookies de sessão; por isso a API precisa liberar a origem correta via `FRONTEND_URL` e o navegador precisa aceitar cookies de terceiros. Se o navegador bloquear esses cookies por causa das origens diferentes, use um domínio próprio com frontend e API em subdomínios e configure a política de cookies para esse cenário.
+
+Para criar o primeiro acesso em produção, não use as contas `@demo.com`: elas só existem após executar o seed, que é bloqueado em produção e apaga todos os dados quando executado em um banco de demonstração. Crie o superadministrador pelo script `npm run super`, definindo `SUPER_EMAIL`, `SUPER_NOME` e `SUPER_SENHA` (mínimo 12 caracteres) no ambiente do backend; então entre com essas credenciais e cadastre a instituição. O `npm run seed` deve ser usado apenas em banco descartável de desenvolvimento/testes.
+
+### Site e API juntos no mesmo servidor
+Também é possível hospedar tudo no Render, Railway ou VPS:
 ```
 cd frontend && npm install && npm run build      # gera frontend/dist
 cd ../backend && npm install --omit=dev
