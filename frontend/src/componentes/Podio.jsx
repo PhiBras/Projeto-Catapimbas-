@@ -149,8 +149,8 @@ export function Apresentacao({ titulo, ranking, aoFechar }) {
           </button>
         )}
 
-        <div className="controle-volume" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.35)', padding: '8px 14px', borderRadius: '12px' }}>
-          <button className="botao sec pequeno icone" style={{ border: 'none', background: 'transparent', padding: '2px' }} onClick={() => alterarVolume(volume > 0 ? 0 : 1)} title={volume === 0 ? 'Ativar som' : 'Mudar para mudo'}>
+        <div className="controle-volume" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#fff', background: 'rgba(12, 9, 30, 0.92)', border: '1px solid rgba(255,255,255,0.2)', padding: '8px 14px', borderRadius: '12px' }}>
+          <button className="botao sec pequeno icone" style={{ color: '#fff', border: 'none', background: 'transparent', padding: '2px' }} onClick={() => alterarVolume(volume > 0 ? 0 : 1)} title={volume === 0 ? 'Ativar som' : 'Mudar para mudo'} aria-label={volume === 0 ? 'Ativar som' : 'Silenciar'}>
             <Icone nome={volume === 0 ? 'mudo' : 'som'} tam={18} />
           </button>
           <input
