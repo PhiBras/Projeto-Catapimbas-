@@ -11,7 +11,12 @@ const app = express();
 app.set('trust proxy', true);
 app.disable('x-powered-by');
 
-app.use(cors());
+// Configuração de CORS com permissão de credenciais (cookies cross-site)
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'https://catapimba.vercel.app',
+  credentials: true
+}));
+
 app.use(cabecalhos);
 app.use(verificarOrigem);
 app.use(express.json({ limit: '100kb' }));

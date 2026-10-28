@@ -44,8 +44,12 @@ publicas.post('/login', limitar(10, 900000), async (req, res, next) => {
     }
     const token = crypto.randomBytes(32).toString('hex');
     await consulta('INSERT INTO sessoes (token, usuario_id, instituicao_id) VALUES ($1,$2,$3)', [token, u.id, v?.instituicao_id ?? null]);
-    const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
-    res.setHeader('Set-Cookie', `sid=${token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800${secure}`);
+    
+    // Configura SameSite=None e Secure para aceitar cookies entre Vercel e Render
+    const isProd = process.env.NODE_ENV === 'production';
+    const sameSiteSecure = isProd ? '; SameSite=None; Secure' : '; SameSite=Lax';
+
+    res.setHeader('Set-Cookie', `sid=${token}; HttpOnly; Path=/; Max-Age=28800${sameSiteSecure}`);
     res.json({ ok: true });
   } catch (err) {
     console.error('--- ERRO DETALHADO NO LOGIN ---', err);
@@ -56,7 +60,11 @@ publicas.post('/login', limitar(10, 900000), async (req, res, next) => {
 privadas.post('/logout', async (req, res, next) => {
   try {
     await consulta('DELETE FROM sessoes WHERE token=$1', [req.u.token]);
-    res.setHeader('Set-Cookie', 'sid=; Max-Age=0; Path=/');
+    
+    const isProd = process.env.NODE_ENV === 'production';
+    const sameSiteSecure = isProd ? '; SameSite=None; Secure' : '; SameSite=Lax';
+
+    res.setHeader('Set-Cookie', `sid=; HttpOnly; Path=/; Max-Age=0${sameSiteSecure}`);
     res.json({ ok: true });
   } catch (err) {
     console.error('--- ERRO DETALHADO NO LOGOUT ---', err);
