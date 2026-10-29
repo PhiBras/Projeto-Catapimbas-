@@ -1,0 +1,90 @@
+/* Tema "jogo": cores vivas, botões 3D, medalhas e modo apresentação de programa de auditório. */
+:root {
+  --serifa: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --tinta: #2a1163; --papel: #f3f0fb; --linha: #e0d9f3; --texto: #1d1440; --suave: #665b8c;
+  --n1: #ef476f; --n2: #f78c1f; --n3: #ffd23f; --n4: #06c996; --n5: #4361ee;   /* escala de notas: do vermelho ao azul */
+}
+html[data-tema="escuro"] { --tinta: #150a33; --papel: #120a2a; --superficie: #1b1140; --linha: #32245f; --texto: #efeaff; --suave: #a99cd6; }
+h1, h2, h3 { font-weight: 800; }
+.resumo b, .degrau .nomes b, .nota-barra b, .legenda b, .colunas b, .ficha-total b, .ficha-cab b { font-weight: 800; }
+
+/* Botões "de pressionar" */
+.botao { border-radius: 12px; font-weight: 800; box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, black); transition: transform .08s, box-shadow .08s, background .15s; }
+.botao:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 55%, black); }
+.botao.sec { border-width: 2px; box-shadow: 0 3px 0 var(--linha); }
+.botao.sec:active:not(:disabled) { box-shadow: 0 0 0 var(--linha); }
+.botao.perigo { box-shadow: 0 4px 0 #7d1820; }
+.botao.fantasma, .botao.contorno-perigo { box-shadow: none; } .botao.fantasma:active, .botao.contorno-perigo:active { transform: none; }
+.botao.contorno-perigo { border-width: 2px; }
+
+/* Cartões e campos mais arredondados */
+.painel { border-width: 2px; border-radius: 18px; }
+.modal { border-radius: 20px; }
+input:not([type=checkbox]):not([type=radio]):not([type=color]), select, textarea { border-width: 2px; border-radius: 12px; }
+.lateral { background: linear-gradient(180deg, var(--tinta), color-mix(in srgb, var(--tinta) 65%, black)); }
+.marca-sigla { border-radius: 12px; box-shadow: 0 3px 0 rgba(0,0,0,.3); }
+.resumo b { font-size: 3.3rem; }
+.resumo > div:nth-child(1) b { color: var(--n1); } .resumo > div:nth-child(2) b { color: var(--n4); } .resumo > div:nth-child(3) b { color: var(--n5); }
+.abas button.ativa { box-shadow: 0 2px 0 var(--linha); }
+
+/* Login */
+.login-marca { background: radial-gradient(circle at 20% 15%, #5b2bd0 0, transparent 50%), radial-gradient(circle at 90% 90%, #ff4f8b66 0, transparent 45%), #2a1163; }
+.login-marca::before, .login-marca::after { content: ""; position: absolute; pointer-events: none; }
+.login-marca::before { width: 190px; height: 190px; right: -60px; top: 10%; border-radius: 50%; background: var(--n3); }
+.login-marca::after { width: 130px; height: 130px; left: -35px; bottom: 8%; border-radius: 26px; background: var(--n1); transform: rotate(25deg); }
+.login-marca > * { position: relative; z-index: 1; }
+.login-marca h1 { font-size: clamp(2.2rem, 4vw, 3.6rem); }
+.ficha { border-radius: 20px; box-shadow: 0 10px 0 rgba(0,0,0,.25), 0 30px 60px rgba(0,0,0,.35); }
+.mini i { border-radius: 7px; }
+.mini i:nth-child(1).on { background: var(--n1); } .mini i:nth-child(2).on { background: var(--n2); } .mini i:nth-child(3).on { background: var(--n3); }
+.mini i:nth-child(4).on { background: var(--n4); } .mini i:nth-child(5).on { background: var(--n5); }
+
+/* Notas 1 a 5: botões coloridos com forma (acessível também para quem não distingue cores) */
+.seg { gap: 8px; }
+.seg button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 0 10px; border: 0; border-radius: 14px; color: #fff; font-size: 1.5rem; opacity: .55; box-shadow: 0 4px 0 rgba(0,0,0,.25); transition: transform .1s, opacity .15s, box-shadow .1s; }
+.seg button:hover { opacity: .85; }
+.seg button.on { opacity: 1; transform: translateY(-3px) scale(1.07); box-shadow: 0 8px 0 rgba(0,0,0,.28); }
+.seg .n1 { background: var(--n1); } .seg .n2 { background: var(--n2); } .seg .n3 { background: var(--n3); color: #3a2c00; } .seg .n4 { background: var(--n4); } .seg .n5 { background: var(--n5); }
+.forma { display: block; width: 22px; height: 22px; background: currentColor; }
+.n1 .forma { clip-path: polygon(50% 8%, 95% 90%, 5% 90%); }
+.n2 .forma { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.n3 .forma { border-radius: 50%; } .n4 .forma { border-radius: 4px; }
+.n5 .forma { clip-path: polygon(50% 0, 62% 36%, 100% 38%, 70% 60%, 80% 96%, 50% 75%, 20% 96%, 30% 60%, 0 38%, 38% 36%); }
+.descritor { font-size: 1rem; }
+
+/* Medalhas */
+.medalha { position: relative; isolation: isolate; width: 34px; height: 34px; font-weight: 800; font-size: 1.05rem; box-shadow: inset 0 0 0 3px rgba(255,255,255,.55), 0 3px 0 rgba(0,0,0,.2); }
+.medalha.m1::before, .medalha.m2::before, .medalha.m3::before { content: ""; position: absolute; z-index: -1; top: -8px; left: 50%; width: 14px; height: 10px; transform: translateX(-50%); background: var(--c); border-radius: 2px 2px 0 0; }
+.moeda { display: inline-grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 8px; border-radius: 50%; font-family: var(--serifa); font-weight: 800; font-size: 1.4rem; color: #3b2a00; box-shadow: inset 0 0 0 4px rgba(255,255,255,.5), 0 4px 0 rgba(0,0,0,.25); }
+.moeda.m1 { background: radial-gradient(circle at 30% 30%, #fff3b0, #f2c230 55%, #b98512); }
+.moeda.m2 { background: radial-gradient(circle at 30% 30%, #ffffff, #c9d1de 55%, #8995a9); }
+.moeda.m3 { background: radial-gradient(circle at 30% 30%, #ffe0c2, #d99a62 55%, #9a5e2b); }
+
+/* Modo apresentação */
+.apresentacao { overflow: hidden; background: radial-gradient(circle at 50% 0, #6a35e8 0, transparent 55%), radial-gradient(circle at 10% 100%, #ff4f8b55, transparent 45%), #1d0b4f; }
+.apresentacao h2 { font-weight: 800; text-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.apresentacao .degrau { animation: none; opacity: 0; transform: translateY(80px) scale(.9); transition: opacity .4s, transform .8s cubic-bezier(.2, 1.5, .4, 1); }
+.apresentacao .degrau.vis { opacity: 1; transform: none; }
+.apresentacao .moeda { width: 66px; height: 66px; font-size: 2rem; }
+.apresentacao .d1.vis .bloco { animation: brilho-ouro 1.6s ease-in-out infinite; }
+@keyframes brilho-ouro { 50% { filter: brightness(1.25) drop-shadow(0 0 24px #ffd23f); } }
+.contagem { position: fixed; inset: 0; z-index: 2; display: grid; place-items: center; pointer-events: none; font-family: var(--serifa); font-weight: 800; font-size: clamp(8rem, 30vw, 22rem); color: #fff; text-shadow: 0 10px 0 rgba(0,0,0,.25); animation: pop .9s ease-out; }
+@keyframes pop { from { transform: scale(2.4); opacity: 0; } 30% { opacity: 1; } to { transform: scale(1); opacity: .92; } }
+.parabens { text-align: center; font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 800; animation: pop .6s ease-out; }
+.parabens b { color: #ffd23f; }
+
+/* Tema de Jogo Refinado */
+.podio-apresentacao { width: 100%; }
+.podio-apresentacao .d1 .bloco { height: 210px; background: linear-gradient(180deg, #ffe27a, #f2b52c); border: 2px solid #fff; }
+.podio-apresentacao .d2 .bloco { height: 160px; background: linear-gradient(180deg, #ffffff, #b4bfd3); }
+.podio-apresentacao .d3 .bloco { height: 120px; background: linear-gradient(180deg, #ffc794, #e39a5b); }
+
+.botao.festa {
+  background: linear-gradient(135deg, #ff5c93, #7c4dff);
+  box-shadow: 0 6px 0 #4b2fd6;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.botao.festa:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #4b2fd6;
+}
